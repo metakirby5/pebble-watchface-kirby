@@ -4,10 +4,16 @@
         ""
     ],
     "companyName": "metakirby5@gmail.com",
-    "longName": "Tutorial 1",
+    "longName": "Kirby Watchface",
     "projectType": "native",
     "resources": {
         "media": [
+            {
+                "file": "images/kirby_small.png",
+                "menuIcon": true,
+                "name": "KBY_SMALL",
+                "type": "png"
+            },
             {
                 "file": "images/mix.png",
                 "name": "KBY_MIX",
@@ -141,10 +147,10 @@
             }
         ]
     },
-    "shortName": "Tutorial 1",
+    "shortName": "Kirby",
     "uuid": "2c5088df-8fba-4ea7-b00f-c89434fef6e8",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "2.0",
     "watchapp": {
         "watchface": true
     }
