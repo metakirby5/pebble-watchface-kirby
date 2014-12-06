@@ -1,8 +1,12 @@
 #include <pebble.h>
+ 
+#include "kirbies.h"
   
 static Window *s_main_window;
 static TextLayer *s_time_layer;
-static TextLayer *s_name_layer;
+static GFont s_time_font;
+static BitmapLayer *s_kirby_layer;
+static GBitmap *s_kirby;
 
 static void update_time() {
   
@@ -23,27 +27,32 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 
 static void main_window_load(Window *window) {
   
-  s_time_layer = text_layer_create(GRect(0, 55, 144, 50));
-  s_name_layer = text_layer_create(GRect(0, 110, 144, 50));
-  text_layer_set_background_color(s_time_layer, GColorBlack);
-  text_layer_set_background_color(s_name_layer, GColorBlack);
-  text_layer_set_text_color(s_time_layer, GColorWhite);
-  text_layer_set_text_color(s_name_layer, GColorWhite);
-  text_layer_set_text(s_name_layer, "u r a fgt");
+  // Time
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_EMULOGIC_24));
   
-  text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
-  text_layer_set_font(s_name_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
+  s_time_layer = text_layer_create(GRect(-4, 138, 148, 30));
+  text_layer_set_background_color(s_time_layer, GColorClear);
+  text_layer_set_text_color(s_time_layer, GColorBlack);
+  
+  text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
-  text_layer_set_text_alignment(s_name_layer, GTextAlignmentCenter);
   
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_name_layer));
+  
+  // Kirby
+  s_kirby = gbitmap_create_with_resource(RESOURCE_ID_KIRBY_NORMAL);
+  s_kirby_layer = bitmap_layer_create(GRect(24, 10, 96, 120));
+  bitmap_layer_set_bitmap(s_kirby_layer, s_kirby);
+  layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_kirby_layer));
 }
 
 static void main_window_unload(Window *window) {
   
   text_layer_destroy(s_time_layer);
-  text_layer_destroy(s_name_layer);
+  fonts_unload_custom_font(s_time_font);
+  
+  bitmap_layer_destroy(s_kirby_layer);
+  gbitmap_destroy(s_kirby);
 }
 
 static void init() {
@@ -51,6 +60,7 @@ static void init() {
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
   
   s_main_window = window_create();
+  window_set_background_color(s_main_window, GColorWhite);
   
   window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = main_window_load,

@@ -7,7 +7,19 @@
     "longName": "Tutorial 1",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "file": "images/normal.png",
+                "name": "KIRBY_NORMAL",
+                "type": "png"
+            },
+            {
+                "characterRegex": "[0-9:.]",
+                "file": "fonts/emulogic.ttf",
+                "name": "FONT_EMULOGIC_24",
+                "type": "font"
+            }
+        ]
     },
     "shortName": "Tutorial 1",
     "uuid": "2c5088df-8fba-4ea7-b00f-c89434fef6e8",
